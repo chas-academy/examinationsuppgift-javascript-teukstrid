@@ -7,12 +7,30 @@ const incomeList = document.getElementById('incomeList');
 const balance = document.getElementById('balance');
 
 incomeBtn.addEventListener('click', function() {
+    const description = descInput.value;
     const amountValue = amountInput.value;
     const amount = Number(amountValue);
-    console.log("User inputted an income of", amount);
 
-    if (amountValue === "" || isNaN(amount)) {
-        console.warn("Something went wrong. Check if the amount field is correctly filled in")
+    let errorList = []
+
+    if (description === "") {
+        errorList.push("Missing description");
+    }
+    if (amountValue === "") {
+        errorList.push("Missing amount");
+    } else if (isNaN(amount)) {
+        errorList.push("Invalid amount(Only use numbers)");
     }
 
+    if (errorList.length > 0) {
+        console.warn("Invalid user input. Errors: " + errorList.join(", "));
+        return;
+    }
+
+    const li = document.createElement('li');
+    li.textContent = `${description} - ${amount} kr (Inkomst)`;
+    incomeList.appendChild(li);
+
+    descInput.value = "";
+    amountInput.value = "";
 });
